@@ -12,7 +12,7 @@ export default function Scene({ children, className, ...props }: { children: JSX
   return (
     <Canvas {...props}>
       {/* <Environment preset='studio' /> */}
-      <Environment preset='night' />
+      <Environment files={'./en.hdr'} />
       <spotLight position={[0, 50, 100]} angle={1} penumbra={1} intensity={1} />
       <color attach='background' args={['#000']} />
       {/* <Stars radius={100} depth={100} count={5000} factor={12} saturation={0} fade speed={1} /> */}
