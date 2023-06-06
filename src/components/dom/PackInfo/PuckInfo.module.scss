@@ -1,0 +1,22 @@
+.lableTier2 {
+  background: linear-gradient(91.27deg, #ffb800, #ffebb8, #ffcf55);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lableTier1 {
+  background: linear-gradient(91.27deg, #23ffa3, #5177ff, #f364ff, #748aff, #28ffcb);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lableTier1,
+.lableTier2,
+.lableTier3 {
+  margin-right: 0.5rem;
+}
+
+.lable {
+  font-size: 22px;
+  letter-spacing: 2px;
+}

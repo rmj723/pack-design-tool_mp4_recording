@@ -1,0 +1,23 @@
+.title {
+  transform: translate(-50%, 0);
+}
+
+.firstSpan {
+  transform: translate(-50%, 0);
+
+  span {
+    transform: translate(0, 100%);
+  }
+}
+
+.secondSpan {
+  transform: translate(50%, 0);
+
+  span {
+    transform: translate(0, 100%);
+  }
+}
+
+.span {
+  transform: translate(0, 100%);
+}

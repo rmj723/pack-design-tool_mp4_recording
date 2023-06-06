@@ -1,0 +1,14 @@
+.underline {
+  position: relative;
+  display: inline-block;
+
+  &:after {
+    width: 65%;
+    content: '';
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+  }
+}
