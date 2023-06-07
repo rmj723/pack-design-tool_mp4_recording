@@ -14,7 +14,7 @@ import {
   useVideoTexture,
   GradientTexture,
 } from '@react-three/drei'
-import { useControls } from 'leva'
+import { useControls, button } from 'leva'
 import { Group } from 'three'
 import gsap from 'gsap'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
@@ -24,6 +24,19 @@ import useStore from '@/lib/store'
 import { useUserAgent } from '@oieduardorabelo/use-user-agent'
 import { Overlay } from './Overlay'
 import Video from '@/components/canvas/Video'
+
+function downloadJsonAsFile(jsonData, fileName) {
+  const jsonString = JSON.stringify(jsonData)
+  const blob = new Blob([jsonString], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName + '.json'
+  link.click()
+
+  URL.revokeObjectURL(url)
+}
 
 export default function BackText() {
   const font = '/RuderPlakat100.json'
@@ -54,6 +67,14 @@ export default function BackText() {
     reflectivity: { value: 0.8, min: 0, max: 1, step: 0.01 },
     color: '#474c62',
     // color: '#ff9cf5',
+  })
+
+  useControls({
+    download: button((get) => {
+      // alert(`Number value is ${get('number').toFixed(2)}`)
+      console.log(config)
+      downloadJsonAsFile(config, 'config')
+    }),
   })
 
   // const config = {

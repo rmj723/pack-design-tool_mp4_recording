@@ -4,6 +4,7 @@ import Header from '@/components/dom/Header'
 
 const Layout = forwardRef(({ children, ...props }: { children: JSX.Element[] }, ref) => {
   const localRef = useRef()
+
   return (
     <div
       ref={mergeRefs([ref, localRef])}
