@@ -10,6 +10,7 @@ import {
   Text3D,
   useTexture,
   Html,
+  Image,
   MeshTransmissionMaterial,
   useVideoTexture,
   GradientTexture,
@@ -49,7 +50,14 @@ export default function BackText() {
     'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/mpumalanga_veld_puresky_1k.hdr',
   )
 
-  const config = useControls('3D Text', {
+  const { textContent, textSize, duration, background } = useControls('3D Text', {
+    textContent: 'OPENING ACT',
+    textSize: { value: 10, min: 1, max: 20, step: 0.1 },
+    duration: { value: 25, min: 0, max: 30, step: 1 },
+    background: { value: null, image: true },
+  })
+
+  const config = useControls('Text Material', {
     backside: false,
     samples: { value: 16, min: 1, max: 32, step: 1 },
     resolution: { value: 512, min: 64, max: 2048, step: 64 },
@@ -71,8 +79,6 @@ export default function BackText() {
 
   useControls({
     download: button((get) => {
-      // alert(`Number value is ${get('number').toFixed(2)}`)
-      console.log(config)
       downloadJsonAsFile(config, 'config')
     }),
   })
@@ -119,22 +125,33 @@ export default function BackText() {
 
   const packPoster = useTexture('/pack_poster.png')
 
+  const tweenRef = useRef(null)
   useLayoutEffect(() => {
-    const tween = gsap.to(textGroup.current.position, {
+    if (tweenRef.current) {
+      textGroup.current.position.x = 0
+      tweenRef.current.kill()
+    }
+    tweenRef.current = gsap.to(textGroup.current.position, {
       x: -61,
       ease: 'none',
-      duration: 25,
+      duration: duration,
       repeat: -1,
     })
     return () => {
-      tween.kill()
+      tweenRef.current.kill()
     }
-  }, [])
+  }, [duration])
 
   return (
     <>
+      <Image
+        url={background === true ? `/registerimage2.png` : background}
+        position={[10, 5, -45]}
+        scale={[100, 30]}
+        alt=''
+      />
       {/* Video texture test */}
-      {!isMobile && (
+      {/* {!isMobile && (
         <Video
           play={playPackOpening}
           autoplay={false}
@@ -145,20 +162,20 @@ export default function BackText() {
           webm={'/textures/packOpening.webm'}
           onTimeUpdate={onTimeUpdate}
         />
-      )}
+      )} */}
       <ambientLight color={'#0688AF'} intensity={5} />
       <ambientLight color={'#4F396C'} intensity={2} />
       {/* <fog attach='fog' args={['black', 20, 50]} /> */}
       <pointLight color={'#BF8FFD'} intensity={1} position={[0, 0, 0]} />
       <pointLight color={'#0688AF'} intensity={1} position={[0, 0, -100]} />
       <pointLight color={'#fff'} intensity={1} position={[0, 0, 0]} />
-      {!playPackOpening && !isMobile && (
+      {/* {!playPackOpening && !isMobile && (
         <mesh position={[0, -0.7, 8]} scale={isMobile ? [1, 1, 1] : [1.8, 1.8, 1.8]}>
           <planeGeometry args={[16, 9, 1, 1]} />
           <meshBasicMaterial map={packPoster} toneMapped={false} transparent />
         </mesh>
-      )}
-      {!isMobile && (
+      )} */}
+      {/* {!isMobile && (
         <Video
           play={true}
           autoplay={true}
@@ -169,7 +186,7 @@ export default function BackText() {
           mp4={'/textures/NHL-BKWY-Pack-Smoke-Loop-Desktop_v2-hevc-safari.mp4'}
           webm={'/textures/NHL-BKWY-Pack-Smoke-Loop-Desktop_v2-vp9-chrome.webm'}
         />
-      )}
+      )} */}
       {/* 3D TEXT */}
       <group position={[0, isMobile ? 3 : 0, 0]} ref={textGroup}>
         <Text3D
@@ -178,13 +195,13 @@ export default function BackText() {
           // castShadow
           bevelEnabled
           font={font}
-          scale={10}
+          scale={textSize}
           height={0.25}
           bevelSize={0.01}
           bevelSegments={4}
           curveSegments={5}
           bevelThickness={0.01}>
-          OPENING ACT
+          {textContent}
           <MeshTransmissionMaterial background={texture} {...config} />
         </Text3D>
         <Text3D
@@ -193,13 +210,13 @@ export default function BackText() {
           // castShadow
           bevelEnabled
           font={font}
-          scale={10}
+          scale={textSize}
           height={0.25}
           bevelSize={0.01}
           bevelSegments={4}
           curveSegments={5}
           bevelThickness={0.01}>
-          OPENING ACT
+          {textContent}
           <MeshTransmissionMaterial background={texture} {...config} />
         </Text3D>
       </group>
