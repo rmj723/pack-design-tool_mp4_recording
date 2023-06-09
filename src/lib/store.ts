@@ -43,6 +43,7 @@ interface Store {
   playedPucks: string[]
   addPlayedPucks: (title: string) => void
   shouldReveal: boolean
+  puckOpenPlaying: boolean
 }
 
 export default create<Store>((set) => ({
@@ -79,6 +80,7 @@ export default create<Store>((set) => ({
   reveledPucks: [],
   activeIndex: 0,
   shouldReveal: false,
+  puckOpenPlaying: false,
   animateIn: false,
   allowPuckFrame: true,
   increaseActiveIndex: () =>

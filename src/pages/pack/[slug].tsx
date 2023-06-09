@@ -20,16 +20,19 @@ const Stage = dynamic(() => import('@/components/canvas/PuckStage'), { ssr: fals
 // Dom components go here
 export default function Slug({ puck }) {
   const playPuckOpening = useStore((state) => state.playPuckIntro)
-  const [playing, setPlaying] = useState(false)
+  // const [playing, setPlaying] = useState(false)
   const isLoaded = useStore((state) => state.isLoaded)
   const btnRef = useRef<HTMLDivElement>(null)
-  const [reveledPucks, addReveledPucks, playedPucks, addPlayedPucks, shouldReveal] = useStore((state) => [
-    state.reveledPucks,
-    state.addReveledPucks,
-    state.playedPucks,
-    state.addPlayedPucks,
-    state.shouldReveal,
-  ])
+  const [reveledPucks, addReveledPucks, playedPucks, addPlayedPucks, shouldReveal, puckOpenPlaying] = useStore(
+    (state) => [
+      state.reveledPucks,
+      state.addReveledPucks,
+      state.playedPucks,
+      state.addPlayedPucks,
+      state.shouldReveal,
+      state.puckOpenPlaying,
+    ],
+  )
   useLayoutEffect(() => {
     if (!isLoaded) {
       return
@@ -75,40 +78,43 @@ export default function Slug({ puck }) {
   return (
     <>
       <main>
-        <div className={`${playing ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000	`}>
+        <div className={`${puckOpenPlaying ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000	`}>
           {/* @ts-ignore */}
           <PuckTitle puck={puck} />
         </div>
 
         {!reveledPucks.includes(puck.title) && (
           <>
-            <Video
+            {/* <Video
               playing={playedPucks.includes(puck.title)}
               className={`${
                 playedPucks.includes(puck.title) || reveledPucks.includes(puck.title) ? 'opacity-100' : 'opacity-0'
               } pointer-events-none z-0 transition-opacity duration-750	`}
               onEnded={() => {
                 addReveledPucks(puck.title)
-                setPlaying(false)
+                // setPlaying(false)
+                useStore.setState({ puckOpenPlaying: false })
               }}
               onPlay={() => {
-                setPlaying(true)
+                // setPlaying(true)
+                useStore.setState({ puckOpenPlaying: true })
               }}
               src={['/textures/puck_open.webm']}
-            />
+            /> */}
           </>
         )}
-        <div className={`${playing ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000	`}>
+        <div className={`${puckOpenPlaying ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000	`}>
           <BackToPack />
         </div>
 
         <button
           onClick={() => {
             addReveledPucks(puck.title)
-            setPlaying(false)
+            // setPlaying(false)
+            useStore.setState({ puckOpenPlaying: false })
           }}
           className={`${
-            playing ? 'opacity-100' : 'opacity-0'
+            puckOpenPlaying ? 'opacity-100' : 'opacity-0'
           } absolute top-6 text-16 right-8 border-spacing-0 border-black-1 px-4 py-1 transition-opacity  border duration-1000`}>
           SKIP ANIMATION
         </button>

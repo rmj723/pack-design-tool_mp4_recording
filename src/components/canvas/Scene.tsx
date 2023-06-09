@@ -10,7 +10,7 @@ export default function Scene({ children, className, ...props }: { children: JSX
   const { height, width } = useWindowSize()
 
   return (
-    <Canvas {...props}>
+    <Canvas {...props} id='area'>
       {/* <Environment preset='studio' /> */}
       <Environment preset='night' />
       <spotLight position={[0, 50, 100]} angle={1} penumbra={1} intensity={1} />
