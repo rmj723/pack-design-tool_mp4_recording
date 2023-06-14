@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import Puck from '@/components/canvas/Puck'
 import Card from '@/components/canvas/Card'
 import Scroller from '@/templates/VirtualScroll'
@@ -8,6 +8,7 @@ import gsap from 'gsap'
 import CameraCheck from '@/components/canvas/CameraCheck'
 import CameraShaker from '../CameraShaker'
 import Floor from '../Floor'
+import Video from '@/components/canvas/Video'
 
 const CameraReset = ({ title }) => {
   const state = useThree()
@@ -43,12 +44,20 @@ const CameraReset = ({ title }) => {
 export default function PuckStage({ puck, index, length }) {
   const state = useThree()
   const r = state.camera.rotation
-  const [reveledPucks, playedPucks, shouldReveal, addPlayedPucks] = useStore((s) => [
+  const [reveledPucks, playedPucks, shouldReveal, addPlayedPucks, puckOpenPlaying] = useStore((s) => [
     s.reveledPucks,
     s.playedPucks,
     s.shouldReveal,
     s.addPlayedPucks,
+    s.puckOpenPlaying,
   ])
+
+  const { title } = puck
+  useEffect(() => {
+    if (playedPucks.includes(title)) {
+      useStore.setState({ puckOpenPlaying: true })
+    }
+  }, [playedPucks, title])
 
   useFrame(() => {
     if (!shouldReveal) {
@@ -103,7 +112,22 @@ export default function PuckStage({ puck, index, length }) {
           camera={state.camera}
         />
       )}
-      <Floor />
+
+      {puckOpenPlaying && !reveledPucks.includes(title) && (
+        <Video
+          play={puckOpenPlaying}
+          autoplay={false}
+          position={[0, -1, -5]}
+          scale={1}
+          loop={false}
+          mp4={'/textures/packOpening.mp4'}
+          webm={'/textures/puck_open.webm'}
+          onTimeUpdate={() => {}}
+          alignCenter
+        />
+      )}
+
+      {!puckOpenPlaying && <Floor />}
     </group>
   )
 }

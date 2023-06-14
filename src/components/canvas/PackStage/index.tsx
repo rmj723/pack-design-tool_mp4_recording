@@ -36,44 +36,44 @@ export default function BackText() {
     'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/mpumalanga_veld_puresky_1k.hdr',
   )
 
-  const config = useControls('3D Text', {
-    backside: false,
-    samples: { value: 16, min: 1, max: 32, step: 1 },
-    resolution: { value: 512, min: 64, max: 2048, step: 64 },
-    transmission: { value: 0.6, min: 0, max: 1 },
-    clearcoat: { value: 0, min: 0.1, max: 1 },
-    clearcoatRoughness: { value: 0.0, min: 0, max: 1 },
-    thickness: { value: 0.55, min: 0, max: 5 },
-    chromaticAberration: { value: 5, min: 0, max: 5 },
-    anisotropy: { value: 0.3, min: 0, max: 1, step: 0.01 },
-    roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },
-    distortion: { value: 1, min: 0, max: 4, step: 0.01 },
-    distortionScale: { value: 1, min: 0.01, max: 1, step: 0.01 },
-    temporalDistortion: { value: 0.4, min: 0, max: 1, step: 0.01 },
-    ior: { value: 0.83, min: 0, max: 2, step: 0.01 },
-    reflectivity: { value: 0.8, min: 0, max: 1, step: 0.01 },
-    color: '#474c62',
-    // color: '#ff9cf5',
-  })
-
-  // const config = {
+  // const config = useControls('3D Text', {
   //   backside: false,
-  //   samples: 8,
-  //   resolution: 384,
-  //   transmission: 0.93,
-  //   clearcoat: 0.0,
-  //   clearcoatRoughness: 0.0,
-  //   thickness: 1.9,
-  //   chromaticAberration: 2.55,
-  //   anisotropy: 0.3,
-  //   roughness: 0.18,
-  //   distortion: 3.63,
-  //   distortionScale: 0.18,
-  //   temporalDistortion: 0.14,
-  //   ior: 1.28,
-  //   reflectivity: 0.53,
-  //   color: '#e4c2fc',
-  // }
+  //   samples: { value: 16, min: 1, max: 32, step: 1 },
+  //   resolution: { value: 512, min: 64, max: 2048, step: 64 },
+  //   transmission: { value: 0.6, min: 0, max: 1 },
+  //   clearcoat: { value: 0, min: 0.1, max: 1 },
+  //   clearcoatRoughness: { value: 0.0, min: 0, max: 1 },
+  //   thickness: { value: 0.55, min: 0, max: 5 },
+  //   chromaticAberration: { value: 5, min: 0, max: 5 },
+  //   anisotropy: { value: 0.3, min: 0, max: 1, step: 0.01 },
+  //   roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },
+  //   distortion: { value: 1, min: 0, max: 4, step: 0.01 },
+  //   distortionScale: { value: 1, min: 0.01, max: 1, step: 0.01 },
+  //   temporalDistortion: { value: 0.4, min: 0, max: 1, step: 0.01 },
+  //   ior: { value: 0.83, min: 0, max: 2, step: 0.01 },
+  //   reflectivity: { value: 0.8, min: 0, max: 1, step: 0.01 },
+  //   color: '#474c62',
+  //   // color: '#ff9cf5',
+  // })
+
+  const config = {
+    backside: false,
+    samples: 8,
+    resolution: 384,
+    transmission: 0.93,
+    clearcoat: 0.0,
+    clearcoatRoughness: 0.0,
+    thickness: 1.9,
+    chromaticAberration: 2.55,
+    anisotropy: 0.3,
+    roughness: 0.18,
+    distortion: 3.63,
+    distortionScale: 0.18,
+    temporalDistortion: 0.14,
+    ior: 1.28,
+    reflectivity: 0.53,
+    color: '#e4c2fc',
+  }
 
   const playPackOpening = useStore((state) => state.playPackOpening)
 

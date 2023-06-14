@@ -6,14 +6,16 @@ import { useControls } from 'leva'
 import { isMobile } from 'react-device-detect'
 
 export function MousePositionControls() {
-  const { cameraSmoothness } = useControls('Camera Controls', {
-    cameraSmoothness: {
-      value: 0.05,
-      min: 0.01,
-      max: 0.1,
-      step: 0.01,
-    },
-  })
+  // const { cameraSmoothness } = useControls('Camera Controls', {
+  //   cameraSmoothness: {
+  //     value: 0.05,
+  //     min: 0.01,
+  //     max: 0.1,
+  //     step: 0.01,
+  //   },
+  // })
+
+  const cameraSmoothness = 0.05
 
   const cameraRef = useRef()
 
