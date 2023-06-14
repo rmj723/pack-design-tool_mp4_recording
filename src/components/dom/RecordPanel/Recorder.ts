@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default class Recorder {
   private frameRate: number
   private mimeType: string
@@ -7,6 +9,12 @@ export default class Recorder {
   private audioElements: HTMLCollectionOf<HTMLAudioElement>
   private onDataAvailable: (event: BlobEvent) => void
   private onStop: () => Promise<void>
+  private onTimeUpdate: (e: Event) => void
+
+  private intervalId: number
+  private startTime: number
+  private elapsedTime: number
+  private timestampRef: React.MutableRefObject<HTMLDivElement>
 
   constructor(
     opts = {
@@ -14,7 +22,10 @@ export default class Recorder {
       mimeType: 'video/webm; codecs=vp9', //video/x-matroska;codecs=avc1
       convert: false,
     },
+    timestampRef = null!,
   ) {
+    this.timestampRef = timestampRef
+
     const { frameRate, mimeType } = opts
 
     this.frameRate = frameRate
@@ -22,6 +33,9 @@ export default class Recorder {
     this.mimeType = mimeType
 
     this.chunks = []
+
+    this.startTime = 0
+    this.elapsedTime = 0
   }
 
   start(area: HTMLCanvasElement) {
@@ -58,19 +72,73 @@ export default class Recorder {
     }
 
     this.mediaRecorder.addEventListener('dataavailable', this.onDataAvailable.bind(this))
+
     this.mediaRecorder.addEventListener('stop', this.onStop.bind(this))
 
     this.mediaRecorder.start()
+
+    this.startTimer()
   }
 
   stop() {
     this.mediaRecorder.stop()
 
+    clearInterval(this.intervalId)
+
     for (let i = 0; i < this.audioElements.length; ++i) {
       this.audioElements[i].pause()
     }
 
+    if (this.timestampRef) this.timestampRef.current.innerHTML = '00:00'
+
     this.dispose()
+  }
+
+  pause() {
+    this.mediaRecorder.pause()
+    this.pauseTimer()
+  }
+
+  resume() {
+    this.mediaRecorder.resume()
+    this.resumeTimer()
+  }
+
+  startTimer() {
+    this.elapsedTime = 0
+    this.startTime = Date.now()
+    this.intervalId = window.setInterval(this.updateTimer.bind(this), 1000)
+  }
+
+  updateTimer() {
+    // Calculate the elapsed time
+    const currentTime = Date.now()
+    const totalTime = this.elapsedTime + (currentTime - this.startTime)
+
+    // Convert elapsed time to hours, minutes, and seconds
+    const hours = Math.floor(totalTime / 3600000)
+    const minutes = Math.floor((totalTime % 3600000) / 60000)
+    const seconds = Math.floor((totalTime % 60000) / 1000)
+
+    // Format the time as HH:MM:SS
+    const formattedTime = `${pad(minutes)}:${pad(seconds)}`
+
+    // Update the timer element
+    console.log(formattedTime)
+    if (this.timestampRef) this.timestampRef.current.innerHTML = formattedTime
+  }
+  pauseTimer() {
+    clearInterval(this.intervalId)
+    // Update the elapsed time
+    this.elapsedTime += Date.now() - this.startTime
+  }
+
+  // Resume the timer
+  resumeTimer() {
+    // Store the start time
+    this.startTime = Date.now()
+    // Update the timer every second
+    this.intervalId = window.setInterval(this.updateTimer.bind(this), 1000)
   }
 
   dispose() {
@@ -92,4 +160,8 @@ export default class Recorder {
       URL.revokeObjectURL(url)
     }, 1)
   }
+}
+
+function pad(number: number) {
+  return number.toString().padStart(2, '0')
 }

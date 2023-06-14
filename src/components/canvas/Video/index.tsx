@@ -1,4 +1,4 @@
-import { useVideoTexture } from '@react-three/drei'
+import { Html, useVideoTexture } from '@react-three/drei'
 import { isSafari } from 'react-device-detect'
 import { useState, useEffect, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
@@ -10,7 +10,6 @@ export default function Video({
   scale,
   position,
   onTimeUpdate,
-  onEnded,
   alignCenter = false,
   autoplay,
   loop,
@@ -21,7 +20,6 @@ export default function Video({
   scale: number
   position: [number, number, number]
   onTimeUpdate: (e: any) => void
-  onEnded: () => void
   alignCenter?: boolean
   autoplay: boolean
   loop: boolean
@@ -33,14 +31,13 @@ export default function Video({
     muted: true,
     start: play,
     ontimeupdate: onTimeUpdate,
-    onended: onEnded,
   })
 
   useEffect(() => {
     if (isSafari) {
       setSrc(mp4)
     }
-  }, [isSafari])
+  }, [mp4])
 
   const meshRef = useRef(null!)
 
@@ -64,10 +61,11 @@ export default function Video({
   })
 
   return (
-    // <mesh position={[0, -0.7, 8]} rotation={[0, 0, 0]} scale={1.8}>
-    <mesh ref={meshRef} position={position} rotation={[0, 0, 0]} scale={scale}>
-      <planeGeometry args={[16, 9, 1, 1]} />
-      <meshBasicMaterial map={videoTexture} toneMapped={false} transparent />
-    </mesh>
+    <>
+      <mesh ref={meshRef} position={position} rotation={[0, 0, 0]} scale={scale}>
+        <planeGeometry args={[16, 9, 1, 1]} />
+        <meshBasicMaterial map={videoTexture} toneMapped={false} transparent />
+      </mesh>
+    </>
   )
 }

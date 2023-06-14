@@ -85,10 +85,10 @@ export default function Slug({ puck }) {
 
         {!reveledPucks.includes(puck.title) && (
           <>
-            {/* <Video
+            <Video
               playing={playedPucks.includes(puck.title)}
               className={`${
-                playedPucks.includes(puck.title) || reveledPucks.includes(puck.title) ? 'opacity-100' : 'opacity-0'
+                playedPucks.includes(puck.title) || reveledPucks.includes(puck.title) ? 'opacity-0' : 'opacity-0'
               } pointer-events-none z-0 transition-opacity duration-750	`}
               onEnded={() => {
                 addReveledPucks(puck.title)
@@ -100,7 +100,7 @@ export default function Slug({ puck }) {
                 useStore.setState({ puckOpenPlaying: true })
               }}
               src={['/textures/puck_open.webm']}
-            /> */}
+            />
           </>
         )}
         <div className={`${puckOpenPlaying ? 'opacity-0' : 'opacity-100'} transition-opacity duration-1000	`}>

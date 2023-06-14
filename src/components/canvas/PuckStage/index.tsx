@@ -44,22 +44,20 @@ const CameraReset = ({ title }) => {
 export default function PuckStage({ puck, index, length }) {
   const state = useThree()
   const r = state.camera.rotation
-  const [reveledPucks, playedPucks, shouldReveal, addPlayedPucks, addReveledPucks, puckOpenPlaying] = useStore((s) => [
+  const [reveledPucks, playedPucks, shouldReveal, addPlayedPucks, puckOpenPlaying] = useStore((s) => [
     s.reveledPucks,
     s.playedPucks,
     s.shouldReveal,
     s.addPlayedPucks,
-    s.addReveledPucks,
     s.puckOpenPlaying,
   ])
 
-  playedPucks.includes(puck.title)
-
+  const { title } = puck
   useEffect(() => {
-    if (playedPucks.includes(puck.title)) {
+    if (playedPucks.includes(title)) {
       useStore.setState({ puckOpenPlaying: true })
     }
-  }, [playedPucks, puck])
+  }, [playedPucks, title])
 
   useFrame(() => {
     if (!shouldReveal) {
@@ -115,7 +113,7 @@ export default function PuckStage({ puck, index, length }) {
         />
       )}
 
-      {puckOpenPlaying && !reveledPucks.includes(puck.title) && (
+      {puckOpenPlaying && !reveledPucks.includes(title) && (
         <Video
           play={puckOpenPlaying}
           autoplay={false}
@@ -125,15 +123,11 @@ export default function PuckStage({ puck, index, length }) {
           mp4={'/textures/packOpening.mp4'}
           webm={'/textures/puck_open.webm'}
           onTimeUpdate={() => {}}
-          onEnded={() => {
-            addReveledPucks(puck.title)
-            useStore.setState({ puckOpenPlaying: false })
-          }}
           alignCenter
         />
       )}
 
-      {/* <Floor /> */}
+      {!puckOpenPlaying && <Floor />}
     </group>
   )
 }

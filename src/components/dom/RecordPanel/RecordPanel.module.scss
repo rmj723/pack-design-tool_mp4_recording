@@ -1,0 +1,32 @@
+.container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 200px;
+  height: 50px;
+  z-index: 10000001;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  & > div > svg {
+    cursor: pointer;
+    width: 50px;
+  }
+
+  & > div {
+    .disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  .timestamp {
+    display: flex;
+    align-items: center;
+    width: 80px;
+    .text {
+      padding-left: 8px;
+      font-family: Lateral TRIAL Standard;
+    }
+  }
+}
