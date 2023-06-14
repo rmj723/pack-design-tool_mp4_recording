@@ -33,11 +33,11 @@ export default function Video({
     ontimeupdate: onTimeUpdate,
   })
 
-  useEffect(() => {
-    if (isSafari) {
-      setSrc(mp4)
-    }
-  }, [mp4])
+  // useEffect(() => {
+  //   if (isSafari) {
+  //     setSrc(mp4)
+  //   }
+  // }, [mp4])
 
   const meshRef = useRef(null!)
 
@@ -49,13 +49,14 @@ export default function Video({
     if (!meshRef.current) return
     const mesh = meshRef.current
 
-    const distance = 8
+    const distance = 10
 
     if (alignCenter && play) {
       camera.getWorldPosition(cameraPosition)
       camera.getWorldDirection(cameraDirection)
       desiredPosition.copy(cameraPosition).add(cameraDirection.multiplyScalar(distance))
-      desiredPosition.y -= 0.5
+      camera.rotation.x = 0
+      desiredPosition.y = 0
       mesh.position.copy(desiredPosition)
     }
   })

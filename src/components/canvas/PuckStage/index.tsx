@@ -121,7 +121,10 @@ export default function PuckStage({ puck, index, length }) {
           scale={1}
           loop={false}
           mp4={'/textures/packOpening.mp4'}
-          webm={'/textures/puck_open.webm'}
+          // webm={'/textures/puck_open.webm'}
+          webm={
+            'https://media.playground.sweet.io/token/Er1JN31v/13125741113971310594/video.mp4?Expires=1686754589&Signature=By5VGzBxdbaVDTlZpbysTNoe4zzhvKZePjEvS6swsZM83l-LuPMsb0xbVlu9aFxsuwhOVcoXHK2mFVuzBzdb6WepFjJmFd2PxD1vL6HQyE0VU~hncl8t3-lPTOZGqOxwEd7AXzKT6U3VvtnqzVhrXthpifi926gR0Ggoup20gS9Pv2aRd0WGEqmhhjKz~SFkYQkTccv1jtH5RubVPhsbghJgZVh9LZrzTy8m6T8e42JFRDAn8QrjOwcptDWF0gvmNRPFeUJyItEDdx6LEDsaBaBX67Jf~vJU522K-oWdnpsZJuiH~1BiNu~WiaaSQGtTpoDijsccABWAqP~lhdhybA__&Key-Pair-Id=K3C4WTTOYRXGRX'
+          }
           onTimeUpdate={() => {}}
           alignCenter
         />
