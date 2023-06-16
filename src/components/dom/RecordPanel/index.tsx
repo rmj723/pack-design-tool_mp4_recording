@@ -11,7 +11,7 @@ const RecordPanel: React.FC<Props> = ({}) => {
   const [showTutorial, setShowTutorial] = useState(true)
   const [playing, setPlaying] = useState(false)
   const [paused, setPaused] = useState(false)
-
+  console.log(paused)
   const recordHandler = () => {
     if (playing) {
       // stop recording
