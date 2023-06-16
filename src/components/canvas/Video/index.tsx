@@ -49,14 +49,13 @@ export default function Video({
     if (!meshRef.current) return
     const mesh = meshRef.current
 
-    const distance = 10
+    const distance = 11
 
     if (alignCenter && play) {
       camera.getWorldPosition(cameraPosition)
       camera.getWorldDirection(cameraDirection)
       desiredPosition.copy(cameraPosition).add(cameraDirection.multiplyScalar(distance))
-      camera.rotation.x = 0
-      desiredPosition.y = 0
+      mesh.rotation.x = camera.rotation.x
       mesh.position.copy(desiredPosition)
     }
   })
@@ -70,3 +69,7 @@ export default function Video({
     </>
   )
 }
+
+3.820604
+0
+7.781153
