@@ -20,6 +20,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "0.9.3",
     "@oieduardorabelo/use-user-agent": "^5.0.1",
     "@react-three/drei": "^9.56.10",
     "@react-three/fiber": "^8.10.1",

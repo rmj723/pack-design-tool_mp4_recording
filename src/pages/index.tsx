@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { isMobile } from 'react-device-detect'
 import Video from '@/components/dom/Video'
+import { useRouter } from 'next/router'
 // Dynamic import is used to prevent a payload when the website starts, that includes threejs, r3f etc..
 // WARNING ! errors might get obfuscated by using dynamic import.
 // If something goes wrong go back to a static import to show the error.
@@ -16,7 +17,7 @@ export default function Page(props) {
   const playPackOpening = useStore((state) => state.playPackOpening)
   const router = useStore((state) => state.router)
   const btnRef = useRef()
-
+  const { push: routerPush } = useRouter()
   useLayoutEffect(() => {
     if (playPackOpening && btnRef.current) {
       const tween = gsap.to(btnRef.current, {
@@ -51,7 +52,10 @@ export default function Page(props) {
             ref={btnRef}
             // className={`${playPackOpening ? s.flicker : ''}`}
             flicker={playPackOpening}
-            onClick={() => useStore.setState({ playPackOpening: true })}></Button>
+            onClick={() => {
+              useStore.setState({ playPackOpening: true })
+              routerPush('/pack')
+            }}></Button>
         </div>
         {isMobile && (
           <Video
