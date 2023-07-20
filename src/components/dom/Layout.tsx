@@ -11,7 +11,7 @@ const Layout = forwardRef(({ children, ...props }: { children: JSX.Element[] }, 
       ref={mergeRefs([ref, localRef])}
       className='absolute top-0 left-0 z-10 w-screen h-screen overflow-hidden h-screen-ios dom bg-zinc-900 text-gray-50'>
       <Header />
-      <RecordingPanel />
+      {/* <RecordingPanel /> */}
       {children}
     </div>
   )
