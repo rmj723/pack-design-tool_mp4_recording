@@ -1,3 +1,2 @@
-# pack-opening
-
-This project was bootstrapped with [`create-r3f-app`](https://github.com/utsuboco/create-r3f-app)
+sfs pack opening design tool
+test with converting webm into mp4

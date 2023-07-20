@@ -1,4 +1,5 @@
-import { createFFmpeg, fetchFile } from '@/utils/ffmpeg/src'
+// import { createFFmpeg, fetchFile } from '@/utils/ffmpeg/src'
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg'
 import React from 'react'
 
 function pad(number: number) {
