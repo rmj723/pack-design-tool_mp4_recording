@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import Button from '@/components/dom/Button'
 import useStore from '@/lib/store'
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { isMobile } from 'react-device-detect'
 import Video from '@/components/dom/Video'
@@ -39,6 +39,35 @@ export default function Page(props) {
     }
   }
 
+  const videoRef = useRef(null!)
+  const mediaRecorder = useRef<MediaRecorder>(null!)
+  const { recorder } = useStore()
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(recorder)
+      const videoStream = videoRef.current.captureStream()
+      mediaRecorder.current = new MediaRecorder(videoStream)
+      mediaRecorder.current.addEventListener('dataavailable', (event: BlobEvent) => {
+        console.log(33333, recorder.chunks)
+        if (event.data.size > 0) {
+          const videoChunks = [event.data, recorder.chunks[0]]
+
+          const blob = new Blob(videoChunks, { type: 'video/webm' })
+          const url = URL.createObjectURL(blob)
+
+          // Create a download link and simulate a click to download the recording
+          const a = document.createElement('a')
+          a.href = url
+          a.download = 'video_recording.webm'
+          document.body.appendChild(a)
+          a.click()
+          window.URL.revokeObjectURL(url)
+        }
+      })
+    }, 100)
+  }, [recorder])
+
   return (
     <>
       <main>
@@ -47,7 +76,7 @@ export default function Page(props) {
         style={{ background: '#000' }}
         className='absolute top-0 left-0 w-full h-screen opacity-0 z-[10000000]'></div> */}
         <div className='absolute bottom-0 z-[10000001] left-[50%] translate-x-[-50%]'>
-          <Button
+          {/* <Button
             text='OPEN PACK'
             ref={btnRef}
             // className={`${playPackOpening ? s.flicker : ''}`}
@@ -55,7 +84,26 @@ export default function Page(props) {
             onClick={() => {
               useStore.setState({ playPackOpening: true })
               routerPush('/pack')
-            }}></Button>
+            }}></Button> */}
+
+          <video ref={videoRef} id='videoElement' controls>
+            <source src='/textures/welcome.webm' type='video/mp4' />
+          </video>
+          <button
+            onClick={() => {
+              console.log('start', recorder.chunks)
+              mediaRecorder.current.start()
+            }}>
+            start
+          </button>
+          <button
+            style={{ margin: '10px' }}
+            onClick={() => {
+              console.log('stop')
+              mediaRecorder.current.stop()
+            }}>
+            Stop
+          </button>
         </div>
         {isMobile && (
           <Video

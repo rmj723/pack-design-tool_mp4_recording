@@ -57,50 +57,24 @@ export default function BackText() {
     background: { value: null, image: true },
   })
 
-  const config = useControls('Text Material', {
+  const config = {
     backside: false,
-    samples: { value: 16, min: 1, max: 32, step: 1 },
-    resolution: { value: 512, min: 64, max: 2048, step: 64 },
-    transmission: { value: 0.6, min: 0, max: 1 },
-    clearcoat: { value: 0, min: 0.1, max: 1 },
-    clearcoatRoughness: { value: 0.0, min: 0, max: 1 },
-    thickness: { value: 0.55, min: 0, max: 5 },
-    chromaticAberration: { value: 5, min: 0, max: 5 },
-    anisotropy: { value: 0.3, min: 0, max: 1, step: 0.01 },
-    roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },
-    distortion: { value: 1, min: 0, max: 4, step: 0.01 },
-    distortionScale: { value: 1, min: 0.01, max: 1, step: 0.01 },
-    temporalDistortion: { value: 0.4, min: 0, max: 1, step: 0.01 },
-    ior: { value: 0.83, min: 0, max: 2, step: 0.01 },
-    reflectivity: { value: 0.8, min: 0, max: 1, step: 0.01 },
-    color: '#474c62',
-    // color: '#ff9cf5',
-  })
-
-  useControls({
-    download: button((get) => {
-      downloadJsonAsFile(config, 'config')
-    }),
-  })
-
-  // const config = {
-  //   backside: false,
-  //   samples: 8,
-  //   resolution: 384,
-  //   transmission: 0.93,
-  //   clearcoat: 0.0,
-  //   clearcoatRoughness: 0.0,
-  //   thickness: 1.9,
-  //   chromaticAberration: 2.55,
-  //   anisotropy: 0.3,
-  //   roughness: 0.18,
-  //   distortion: 3.63,
-  //   distortionScale: 0.18,
-  //   temporalDistortion: 0.14,
-  //   ior: 1.28,
-  //   reflectivity: 0.53,
-  //   color: '#e4c2fc',
-  // }
+    samples: 8,
+    resolution: 384,
+    transmission: 0.93,
+    clearcoat: 0.0,
+    clearcoatRoughness: 0.0,
+    thickness: 1.9,
+    chromaticAberration: 2.55,
+    anisotropy: 0.3,
+    roughness: 0.18,
+    distortion: 3.63,
+    distortionScale: 0.18,
+    temporalDistortion: 0.14,
+    ior: 1.28,
+    reflectivity: 0.53,
+    color: '#e4c2fc',
+  }
 
   const playPackOpening = useStore((state) => state.playPackOpening)
 
@@ -126,21 +100,6 @@ export default function BackText() {
   const packPoster = useTexture('/pack_poster.png')
 
   const tweenRef = useRef(null)
-  useLayoutEffect(() => {
-    if (tweenRef.current) {
-      textGroup.current.position.x = 0
-      tweenRef.current.kill()
-    }
-    tweenRef.current = gsap.to(textGroup.current.position, {
-      x: -61,
-      ease: 'none',
-      duration: duration,
-      repeat: -1,
-    })
-    return () => {
-      tweenRef.current.kill()
-    }
-  }, [duration])
 
   return (
     <>
@@ -187,128 +146,6 @@ export default function BackText() {
           webm={'/textures/NHL-BKWY-Pack-Smoke-Loop-Desktop_v2-vp9-chrome.webm'}
         />
       )} */}
-      {/* 3D TEXT */}
-      <group position={[0, isMobile ? 3 : 0, 0]} ref={textGroup}>
-        <Text3D
-          position={[-20, -4.21, -10]}
-          smooth={1}
-          // castShadow
-          bevelEnabled
-          font={font}
-          scale={textSize}
-          height={0.25}
-          bevelSize={0.01}
-          bevelSegments={4}
-          curveSegments={5}
-          bevelThickness={0.01}>
-          {textContent}
-          <MeshTransmissionMaterial background={texture} {...config} />
-        </Text3D>
-        <Text3D
-          position={[41, -4.21, -10]}
-          smooth={1}
-          // castShadow
-          bevelEnabled
-          font={font}
-          scale={textSize}
-          height={0.25}
-          bevelSize={0.01}
-          bevelSegments={4}
-          curveSegments={5}
-          bevelThickness={0.01}>
-          {textContent}
-          <MeshTransmissionMaterial background={texture} {...config} />
-        </Text3D>
-      </group>
-      {/* 2D TEXT */}
-      <Html
-        position={[0, isMobile ? 8.1 : 5.75, 0]}
-        occlude='blending'
-        transform
-        wrapperClass='small-back-text-container'>
-        {/* <p className='small-back-text'>
-          ANAHEIM DUCKS · ARIZONA COYOTES · BOSTON BRUINS · BUFFALO SABRES · CALGARY FLAMES · CAROLINA HURRICANES ·
-          CHICAGO BLACKHAWKS · COLORADO AVALANCHE · COLUMBUS BLUE JACKETS · DALLAS STARS · DETROIT RED WINGS · EDMONTON
-          OILERS · FLORIDA PANTHERS · LOS ANGELES KINGS · MINNESOTA WILD · MONTREAL CANADIENS · NASHVILLE PREDATORS ·
-          NEW JERSEY DEVILS · NEW YORK ISLANDERS · NEW YORK RANGERS · OTTAWA SENATORS · PHILADELPHIA FLYERS · PITTSBURGH
-          PENGUINS · SAN JOSE SHARKS · SEATTLE KRAKEN · ST. LOUIS BLUES · TAMPA BAY LIGHTNING · TORONTO MAPLE LEAFS ·
-          VANCOUVER CANUCKS · VEGAS GOLDEN KNIGHTS · WASHINGTON CAPITALS · WINNIPEG JETS
-        </p> */}
-
-        <section>
-          <div className='marquee enable-animation'>
-            <ul className='marquee__content'>
-              <li>&nbsp;ANAHEIM DUCKS ·</li>
-              <li>&nbsp;ARIZONA COYOTES ·</li>
-              <li>&nbsp;BOSTON BRUINS ·</li>
-              <li>&nbsp;BUFFALO SABRES ·</li>
-              <li>&nbsp;CALGARY FLAMES ·</li>
-              <li>&nbsp;CAROLINA HURRICANES ·</li>
-              <li>&nbsp;CHICAGO BLACKHAWKS ·</li>
-              <li>&nbsp;COLORADO AVALANCHE ·</li>
-              <li>&nbsp;COLUMBUS BLUE JACKETS ·</li>
-              <li>&nbsp;DALLAS STARS ·</li>
-              <li>&nbsp;DETROIT RED WINGS ·</li>
-              <li>&nbsp;EDMONTON OILERS ·</li>
-              <li>&nbsp;FLORIDA PANTHERS ·</li>
-              <li>&nbsp;LOS ANGELES KINGS ·</li>
-              <li>&nbsp;MINNESOTA WILD ·</li>
-              <li>&nbsp;MONTREAL CANADIENS ·</li>
-              <li>&nbsp;NASHVILLE PREDATORS ·</li>
-              <li>&nbsp;NEW JERSEY DEVILS ·</li>
-              <li>&nbsp;NEW YORK ISLANDERS ·</li>
-              <li>&nbsp;NEW YORK RANGERS ·</li>
-              <li>&nbsp;OTTAWA SENATORS ·</li>
-              <li>&nbsp;PHILADELPHIA FLYERS ·</li>
-              <li>&nbsp;PITTSBURGH PENGUINS ·</li>
-              <li>&nbsp;SAN JOSE SHARKS ·</li>
-              <li>&nbsp;SEATTLE KRAKEN ·</li>
-              <li>&nbsp;ST. LOUIS BLUES ·</li>
-              <li>&nbsp;TAMPA BAY LIGHTNING ·</li>
-              <li>&nbsp;TORONTO MAPLE LEAFS ·</li>
-              <li>&nbsp;VANCOUVER CANUCKS ·</li>
-              <li>&nbsp;VEGAS GOLDEN KNIGHTS ·</li>
-              <li>&nbsp;WASHINGTON CAPITALS ·</li>
-              <li>&nbsp;WINNIPEG JETS ·</li>
-            </ul>
-
-            <ul aria-hidden='true' className='marquee__content'>
-              <li>&nbsp;ANAHEIM DUCKS ·</li>
-              <li>&nbsp;ARIZONA COYOTES ·</li>
-              <li>&nbsp;BOSTON BRUINS ·</li>
-              <li>&nbsp;BUFFALO SABRES ·</li>
-              <li>&nbsp;CALGARY FLAMES ·</li>
-              <li>&nbsp;CAROLINA HURRICANES ·</li>
-              <li>&nbsp;CHICAGO BLACKHAWKS ·</li>
-              <li>&nbsp;COLORADO AVALANCHE ·</li>
-              <li>&nbsp;COLUMBUS BLUE JACKETS ·</li>
-              <li>&nbsp;DALLAS STARS ·</li>
-              <li>&nbsp;DETROIT RED WINGS ·</li>
-              <li>&nbsp;EDMONTON OILERS ·</li>
-              <li>&nbsp;FLORIDA PANTHERS ·</li>
-              <li>&nbsp;LOS ANGELES KINGS ·</li>
-              <li>&nbsp;MINNESOTA WILD ·</li>
-              <li>&nbsp;MONTREAL CANADIENS ·</li>
-              <li>&nbsp;NASHVILLE PREDATORS ·</li>
-              <li>&nbsp;NEW JERSEY DEVILS ·</li>
-              <li>&nbsp;NEW YORK ISLANDERS ·</li>
-              <li>&nbsp;NEW YORK RANGERS ·</li>
-              <li>&nbsp;OTTAWA SENATORS ·</li>
-              <li>&nbsp;PHILADELPHIA FLYERS ·</li>
-              <li>&nbsp;PITTSBURGH PENGUINS ·</li>
-              <li>&nbsp;SAN JOSE SHARKS ·</li>
-              <li>&nbsp;SEATTLE KRAKEN ·</li>
-              <li>&nbsp;ST. LOUIS BLUES ·</li>
-              <li>&nbsp;TAMPA BAY LIGHTNING ·</li>
-              <li>&nbsp;TORONTO MAPLE LEAFS ·</li>
-              <li>&nbsp;VANCOUVER CANUCKS ·</li>
-              <li>&nbsp;VEGAS GOLDEN KNIGHTS ·</li>
-              <li>&nbsp;WASHINGTON CAPITALS ·</li>
-              <li>&nbsp;WINNIPEG JETS ·</li>
-            </ul>
-          </div>
-        </section>
-      </Html>
 
       <Floor />
       <Overlay />

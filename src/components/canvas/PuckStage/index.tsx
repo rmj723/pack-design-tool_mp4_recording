@@ -8,6 +8,7 @@ import gsap from 'gsap'
 import CameraCheck from '@/components/canvas/CameraCheck'
 import CameraShaker from '../CameraShaker'
 import Floor from '../Floor'
+import Video from '../Video'
 
 const CameraReset = ({ title }) => {
   const state = useThree()
@@ -57,7 +58,7 @@ export default function PuckStage({ puck, index, length }) {
       }
     }
   })
-
+  console.log(shouldReveal)
   return (
     <group>
       <Scroller>
@@ -86,6 +87,18 @@ export default function PuckStage({ puck, index, length }) {
           />
         )}
       </Scroller>
+
+      {/* <Video
+        play={shouldReveal}
+        autoplay={false}
+        position={[0, -0.7, 8]}
+        scale={1.8}
+        loop={false}
+        onTimeUpdate={() => {}}
+        mp4={'/textures/welcome.webm'}
+        webm={'/textures/welcome.webm'}
+      /> */}
+
       <ambientLight color={'#ffffff'} intensity={4} />
       <ambientLight color={'#4F396C'} intensity={1} />
       {/* <fog attach='fog' args={['black', 20, 50]} /> */}

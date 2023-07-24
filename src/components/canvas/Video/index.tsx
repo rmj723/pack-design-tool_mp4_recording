@@ -37,7 +37,7 @@ export default function Video({
   }, [isSafari])
   return (
     // <mesh position={[0, -0.7, 8]} rotation={[0, 0, 0]} scale={1.8}>
-    <mesh position={position} rotation={[0, 0, 0]} scale={scale}>
+    <mesh position={position} rotation={[0, 0, 0]} scale={scale} position-z={-10}>
       <planeGeometry args={[16, 9, 1, 1]} />
       <meshBasicMaterial map={videoTexture} toneMapped={false} transparent />
     </mesh>

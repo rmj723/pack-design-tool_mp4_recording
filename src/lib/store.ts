@@ -1,7 +1,13 @@
 import { create } from 'zustand'
 import { NextRouter } from 'next/router'
+import { Recorder } from '@/utils/recorder'
+
+export const recordData = {
+  chunks: [],
+}
 
 interface Store {
+  recorder: Recorder
   router: NextRouter | null
   hasRouted: boolean
   isRouting: boolean
@@ -46,6 +52,7 @@ interface Store {
 }
 
 export default create<Store>((set) => ({
+  recorder: null!,
   aboutActive: false,
   activeObject: false,
   activeProject: false,

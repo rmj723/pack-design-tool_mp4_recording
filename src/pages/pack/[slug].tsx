@@ -80,13 +80,13 @@ export default function Slug({ puck }) {
           <PuckTitle puck={puck} />
         </div>
 
-        {!reveledPucks.includes(puck.title) && (
+        {true && (
           <>
             <Video
               playing={playedPucks.includes(puck.title)}
-              className={`${
-                playedPucks.includes(puck.title) || reveledPucks.includes(puck.title) ? 'opacity-100' : 'opacity-0'
-              } pointer-events-none z-0 transition-opacity duration-750	`}
+              // className={`${
+              //   playedPucks.includes(puck.title) || reveledPucks.includes(puck.title) ? 'opacity-100' : 'opacity-0'
+              // } pointer-events-none z-0 transition-opacity duration-750	`}
               onEnded={() => {
                 addReveledPucks(puck.title)
                 setPlaying(false)
@@ -94,7 +94,8 @@ export default function Slug({ puck }) {
               onPlay={() => {
                 setPlaying(true)
               }}
-              src={['/textures/puck_open.webm']}
+              // src={['/textures/puck_open.webm']}
+              src={['/textures/welcome.webm']}
             />
           </>
         )}

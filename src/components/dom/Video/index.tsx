@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef } from 'react'
 import Image from 'next/image'
-
+import useStore from '@/lib/store'
 import s from './Video.module.scss'
 
 interface Props {
@@ -15,6 +15,11 @@ interface Props {
 
 const Video: FC<Props> = ({ src, className, playing, onEnded, onPlay, onTimeUpdate, poster }) => {
   const ref = useRef<HTMLVideoElement | null>(null)
+  const { recorder } = useStore()
+
+  useEffect(() => {
+    console.log('ttt recorder', recorder)
+  }, [recorder])
 
   useEffect(() => {
     if (!ref.current) {
@@ -30,12 +35,13 @@ const Video: FC<Props> = ({ src, className, playing, onEnded, onPlay, onTimeUpda
   return (
     <div className={`${s.videoContainer} ${className || ''}`}>
       <video
+        controls
         ref={ref}
         onEnded={onEnded}
         onPlay={onPlay}
         onTimeUpdate={onTimeUpdate}
         playsInline
-        muted
+        muted={false}
         autoPlay={playing}>
         {src.map((file) => (
           <source key={file} src={file} type={`video/${file.includes('webm') ? 'webm' : 'mp4'}`} />

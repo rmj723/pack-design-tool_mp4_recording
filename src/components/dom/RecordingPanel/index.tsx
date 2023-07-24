@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   PauseRecordingIcon,
   PlayRecordingIcon,
@@ -7,15 +7,18 @@ import {
   TimerDotIcon,
 } from '@/components/icons/IconsRecording'
 import { Recorder } from '@/utils/recorder'
-
+import useStore from '@/lib/store'
 import s from './RecordingPanel.module.scss'
 
 const RecordingPanel: React.FC = () => {
   const timestampRef = useRef<HTMLDivElement>(null)
   const [recorder] = useState(new Recorder(undefined, timestampRef))
-  const [showTutorial, setShowTutorial] = useState(true)
+  const [showTutorial, setShowTutorial] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [paused, setPaused] = useState(false)
+  useEffect(() => {
+    useStore.setState({ recorder })
+  }, [recorder])
 
   const recordHandler = () => {
     if (showTutorial) {

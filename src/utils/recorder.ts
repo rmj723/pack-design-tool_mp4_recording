@@ -1,5 +1,3 @@
-// import { createFFmpeg, fetchFile } from '@/utils/ffmpeg/src'
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg'
 import React from 'react'
 
 function pad(number: number) {
@@ -11,7 +9,7 @@ export class Recorder {
 
   private mimeType: string
 
-  private chunks: BlobPart[]
+  public chunks: BlobPart[]
 
   private link: HTMLAnchorElement
 
@@ -81,22 +79,8 @@ export class Recorder {
     }
 
     this.onStop = async () => {
-      const ffmpeg = createFFmpeg({
-        log: true,
-      })
-
-      await ffmpeg.load()
-      const tempFileName = 'temp.mp4'
-      const file = new File(this.chunks, tempFileName)
-      // eslint-disable-next-line new-cap
-      ffmpeg.FS('writeFile', tempFileName, await fetchFile(file))
-      await ffmpeg.run('-i', tempFileName, '-c', 'copy', 'scene.mp4')
-      // eslint-disable-next-line new-cap
-      const data = ffmpeg.FS('readFile', 'scene.mp4')
-
-      const blob = new Blob([data.buffer], { type: 'video/mp4' })
-
-      this.downloadBlob(URL.createObjectURL(blob), 'scene.mp4')
+      const blob = new Blob(this.chunks, { type: this.mimeType })
+      this.downloadBlob(URL.createObjectURL(blob), 'scene.webm')
     }
 
     this.mediaRecorder.addEventListener('dataavailable', this.onDataAvailable.bind(this))
