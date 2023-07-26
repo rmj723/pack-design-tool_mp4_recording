@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import * as THREE from 'three'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { RGBELoader } from 'three-stdlib'
 import { useLoader } from '@react-three/fiber'
@@ -51,7 +51,7 @@ export default function BackText() {
   )
 
   const { textContent, textSize, duration, background } = useControls('3D Text', {
-    textContent: 'OPENING ACT',
+    textContent: 'OPENING',
     textSize: { value: 10, min: 1, max: 20, step: 0.1 },
     duration: { value: 25, min: 0, max: 30, step: 1 },
     background: { value: null, image: true },
@@ -125,6 +125,13 @@ export default function BackText() {
 
   const packPoster = useTexture('/pack_poster.png')
 
+  const textRef = useRef<Mesh>()
+  const [textWidth, setTextWidth] = useState(60)
+  useEffect(() => {
+    const boundingBox = new THREE.Box3().setFromObject(textRef.current)
+    setTextWidth(boundingBox.max.x - boundingBox.min.x + 3)
+  }, [textContent])
+
   const tweenRef = useRef(null)
   useLayoutEffect(() => {
     if (tweenRef.current) {
@@ -132,7 +139,7 @@ export default function BackText() {
       tweenRef.current.kill()
     }
     tweenRef.current = gsap.to(textGroup.current.position, {
-      x: -61,
+      x: -textWidth,
       ease: 'none',
       duration: duration,
       repeat: -1,
@@ -140,7 +147,7 @@ export default function BackText() {
     return () => {
       tweenRef.current.kill()
     }
-  }, [duration])
+  }, [duration, textContent, textWidth])
 
   return (
     <>
@@ -191,6 +198,7 @@ export default function BackText() {
       <group position={[0, isMobile ? 3 : 0, 0]} ref={textGroup}>
         <Text3D
           position={[-20, -4.21, -10]}
+          ref={textRef}
           smooth={1}
           // castShadow
           bevelEnabled
@@ -205,7 +213,7 @@ export default function BackText() {
           <MeshTransmissionMaterial background={texture} {...config} />
         </Text3D>
         <Text3D
-          position={[41, -4.21, -10]}
+          position={[textWidth - 20, -4.21, -10]}
           smooth={1}
           // castShadow
           bevelEnabled
